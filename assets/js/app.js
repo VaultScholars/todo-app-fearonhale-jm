@@ -1,7 +1,7 @@
 // app.js
 // This file controls what the app does.
 // Students will fill in the logic for adding, updating, and deleting tasks.
-
+//Placeholder
 // The array where all tasks will be stored
 let tasks = [];
 
