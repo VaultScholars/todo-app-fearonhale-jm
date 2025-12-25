@@ -7,7 +7,7 @@ using only **HTML, CSS, and JavaScript**.
 
 ## What You'll Build
 
-This TODO app allows users to add tasks, mark them as complete, delete them, and persist data using localStorage. The interface includes a form for new tasks and a list that updates dynamically.
+This TODO app allows users to add tasks, mark them as complete, delete them, and persist data using localStorage (means storing information in a user's web browser so that it remains available even after the user closes the browser window, the tab, or restarts their computer). The interface includes a form for new tasks and a list that updates dynamically.
 
 ## Getting Started
 
