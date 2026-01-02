@@ -1,5 +1,6 @@
 // dom.js
 // In this file, students will write the functions that update the DOM.
+// This file is responsible for changing what the user sees on the screen
 
 // Useful DOM APIs to reference:
 // - document.createElement: https://developer.mozilla.org/en-US/docs/Web/API/Document/createElement
@@ -60,7 +61,32 @@ EXPECTED OUTPUT OF renderTasks():
 // - Add each <li> to the <ul>
 // - Show the empty state message when there are no tasks
 function renderTasks(tasks, listElement, emptyStateElement) {
-  // TODO: Implement rendering logic
+  
+  // Remove everything currently inside the <ul>
+  // This prevents duplicate tasks from appearing
+  listElement.innerHTML = "";
+
+  // If thereare no tasks in the array
+  if (tasks.length === 0) {
+
+    // Show the "no tasks yet" message
+    emptyStateElement.style.display = "block";
+
+    return ;
+  }
+
+  // If the tasks DO exist, hide the empty message
+  emptyStateElement.style.display = "none";
+
+  // Loop through every task in the tasks array
+  tasks.forEach(task => { //tasks.forEach is not defined here, fix it
+
+    // Create one <li> element for this task
+    const taskElement = createTaskElement(task);
+
+    // Add the <li> to the <ul> on the page
+    listElement.appendChild(taskElement);
+  });
 }
 
 
@@ -71,7 +97,83 @@ function renderTasks(tasks, listElement, emptyStateElement) {
 // - Make the checkbox checked if the task is completed
 // - NOT add event listeners (app.js will handle that)
 function createTaskElement(task) {
-  // TODO: Implement element creation logic
+  
+  // Create the <li> element
+  const li = document.createElement("li");
+
+  // Add the CSS class used for styling
+  li.classList.add("task-item");
+
+  // Store the task ID in the HTML so app.js can read it later
+  li.setAttribute("data-id", task.id);
+
+
+  // Left Side
+  const leftDiv = document.createElement("div");
+  leftDiv.classList.add("task-item-left");
+
+  // Create the checkbox
+  const checkbox = document.createElement("input");
+  checkbox.type = "checkbox";
+  checkbox.classList.add("task-checkbox");
+
+  // If the task is completed, check the checkbox
+  checkbox.checked = task.completed;
+
+
+  // Main Content
+  const title = document.createElement("p");
+  title.classList.add("task-title");
+  title.textContent = task.title;
+
+  // Add the title to the main content area
+  const mainDiv =document.createElement("div");
+  mainDiv.classList.add("task-main");
+  mainDiv.appendChild(title);
+
+  // Only create meta information if category or due date exists
+  if (task.category || task.dueDate) {
+
+    const meta = document.createElement("p");
+    meta.classList.add("task-meta");
+
+    // Build the text
+    const parts = [];
+
+    if(task.category) parts.push(task.category);
+    if(task.dueDate) parts.push(task.dueDate);
+
+    meta.textContent = parts.join(" • ");
+
+    // Add meta info under the title
+    mainDiv.appendChild(meta);
+  }
+
+  // Put checkbox and text together
+  leftDiv.appendChild(checkbox);
+  leftDiv.appendChild(mainDiv);
+
+
+  // Actions
+  const actionsDiv = document.createElement("div");
+  actionsDiv.classList.add("task-actions");
+
+  const deleteButton = document.createElement("button");
+  deleteButton.type = "button";
+  deleteButton.classList.add("task-delete-button");
+  deleteButton.textContent = "Delete";
+
+  actionsDiv.appendChild(deleteButton);
+
+  
+
+  // Final Assembly
+
+  li.appendChild(leftDiv);
+  li.appendChild(actionsDiv);
+
+  // Return the finished <li>
+  return li;
 }
 
 
@@ -80,5 +182,13 @@ function createTaskElement(task) {
 // - Reset the form
 // - Put focus back on the task title input
 function clearTaskForm(form) {
-  // TODO: Reset the form and focus the title input
+  
+  // Reset all form fields to empty
+  form.reset();
+
+  // Fnd the title input inside the form
+  const titleInput = form.querySelector("input");
+
+  // Put the typinf cursor back in the title box
+  titleInput.focus();
 }
