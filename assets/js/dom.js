@@ -81,7 +81,7 @@ function renderTasks(tasks, listElement, emptyStateElement) {
   emptyStateElement.style.display = "none";
 
   // Loop through every task in the tasks array
-  tasks.forEach(task => { //tasks.forEach is not defined here, fix it
+  tasks.forEach(task => { 
 
     // Create one <li> element for this task
     const taskElement = createTaskElement(task);
