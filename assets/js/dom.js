@@ -29,7 +29,7 @@ The functions below should produce elements that match this structure:
   </div>
 
   <div class="task-actions">
-    <button type="button" class="task-delete-btn">Delete</button>
+    <button type="button" class="task-delete-button">Delete</button>
   </div>
 </li>
 
@@ -60,6 +60,8 @@ EXPECTED OUTPUT OF renderTasks():
 // - Create an <li> for each task using createTaskElement()
 // - Add each <li> to the <ul>
 // - Show the empty state message when there are no tasks
+
+
 function renderTasks(tasks, listElement, emptyStateElement) {
   
   // Remove everything currently inside the <ul>
@@ -99,20 +101,23 @@ function renderTasks(tasks, listElement, emptyStateElement) {
 function createTaskElement(task) {
   
   // Create the <li> element
-  const li = document.createElement("li");
+  const listItem = document.createElement("li");
 
   // Add the CSS class used for styling
-  li.classList.add("task-item");
+  listItem.classList.add("task-item");
+
+  // Storing the tasks's unique ID inside the HTML element
+  listItem.dataset.id = task.id;
 
   // Store the task ID in the HTML so app.js can read it later
-  li.setAttribute("data-id", task.id);
+  listItem.setAttribute("data-id", task.id);
 
 
-  // Left Side
+  // Creating the left side container
   const leftDiv = document.createElement("div");
   leftDiv.classList.add("task-item-left");
 
-  // Create the checkbox
+  // Creating the checkbox
   const checkbox = document.createElement("input");
   checkbox.type = "checkbox";
   checkbox.classList.add("task-checkbox");
@@ -120,15 +125,16 @@ function createTaskElement(task) {
   // If the task is completed, check the checkbox
   checkbox.checked = task.completed;
 
+  // Creating the main text container
+  const mainDiv = document.createElement("div");
+  mainDiv.classList.add("task-main");
 
-  // Main Content
+  // Creating the task title
   const title = document.createElement("p");
   title.classList.add("task-title");
   title.textContent = task.title;
 
   // Add the title to the main content area
-  const mainDiv =document.createElement("div");
-  mainDiv.classList.add("task-main");
   mainDiv.appendChild(title);
 
   // Only create meta information if category or due date exists
@@ -137,22 +143,29 @@ function createTaskElement(task) {
     const meta = document.createElement("p");
     meta.classList.add("task-meta");
 
-    // Build the text
-    const parts = [];
+    // Build the meta text
+    let metaText = "";
 
-    if(task.category) parts.push(task.category);
-    if(task.dueDate) parts.push(task.dueDate);
+    if (task.category) {
+      metaText += task.category;
+    }
 
-    meta.textContent = parts.join(" • ");
+    if (task.category && task.dueDate) {
+      metaText += " • ";
+    }
 
+    if (task.dueDate) {
+      metaText += task.dueDate;
+    }
+    
     // Add meta info under the title
+    meta.textContent = metaText;
     mainDiv.appendChild(meta);
   }
 
   // Put checkbox and text together
   leftDiv.appendChild(checkbox);
   leftDiv.appendChild(mainDiv);
-
 
   // Actions
   const actionsDiv = document.createElement("div");
@@ -163,17 +176,15 @@ function createTaskElement(task) {
   deleteButton.classList.add("task-delete-button");
   deleteButton.textContent = "Delete";
 
+  // Add delete button to actions
   actionsDiv.appendChild(deleteButton);
 
-  
-
   // Final Assembly
-
-  li.appendChild(leftDiv);
-  li.appendChild(actionsDiv);
+  listItem.appendChild(leftDiv);
+  listItem.appendChild(actionsDiv);
 
   // Return the finished <li>
-  return li;
+  return listItem;
 }
 
 

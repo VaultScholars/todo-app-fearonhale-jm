@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const highestID = Math.max(...tasks.map(task => task.id));
 
     // Set the nextTaskID to one more than the highest ID
-    nexttaskID = highestID + 1;
+    nextTaskId = highestID + 1;
   }
 
   // Display the tasks on the page using dom.js
@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", () => {
       saveTasks(tasks);
 
       // Update the page to reflect the change
-      renderTasks(task, taskList, emptyState);
+      renderTasks(tasks, taskList, emptyState);
 
       return;
     }
@@ -105,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
 //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
     // If the delete button was clicked:
-    if (target.classList.contains("task-delete-btn")) {
+    if (target.classList.contains("task-delete-button")) {
 
       // Remove the task with the matching ID
       tasks = tasks.filter(task => task.id !== taskId);
